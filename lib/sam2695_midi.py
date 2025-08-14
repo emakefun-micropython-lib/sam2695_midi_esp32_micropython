@@ -4,119 +4,6 @@ from sam2695_midi_timbre import SAM2695_MIDI_TIMBRE_BANK_0, SAM2695_MIDI_TIMBRE_
 
 
 class Sam2695Midi:
-    class EqualizerParameter:
-        """
-        Equalizer parameter structure.
-
-        Args:
-            low_frequency_gain: Low frequency gain value (0-127).
-            medium_low_frequency_gain: Medium-low frequency gain value (0-127).
-            medium_high_frequency_gain: Medium-high frequency gain value (0-127).
-            high_frequency_gain: High frequency gain value (0-127).
-            low_frequency: Low frequency center value (0-127).
-            medium_low_frequency: Medium-low frequency center value (0-127).
-            medium_high_frequency: Medium-high frequency center value (0-127).
-            high_frequency: High frequency center value (0-127).
-        """
-
-        def __init__(
-            self,
-            low_frequency_gain: int = 64,
-            medium_low_frequency_gain: int = 64,
-            medium_high_frequency_gain: int = 64,
-            high_frequency_gain: int = 64,
-            low_frequency: int = 64,
-            medium_low_frequency: int = 64,
-            medium_high_frequency: int = 64,
-            high_frequency: int = 64,
-        ):
-            self.low_frequency_gain = low_frequency_gain
-            self.medium_low_frequency_gain = medium_low_frequency_gain
-            self.medium_high_frequency_gain = medium_high_frequency_gain
-            self.high_frequency_gain = high_frequency_gain
-            self.low_frequency = low_frequency
-            self.medium_low_frequency = medium_low_frequency
-            self.medium_high_frequency = medium_high_frequency
-            self.high_frequency = high_frequency
-
-    class ScaleTuningParameter:
-        """
-        12 scale tuning parameter structures.
-
-        Args:
-            note_c: C note fine-tuning value (0-127).
-            note_c_sharp: C# note fine-tuning value (0-127).
-            note_d: D note fine-tuning value (0-127).
-            note_d_sharp: D# note fine-tuning value (0-127).
-            note_e: E note fine-tuning value (0-127).
-            note_f: F note fine-tuning value (0-127).
-            note_f_sharp: F# note fine-tuning value (0-127).
-            note_g: G note fine-tuning value (0-127).
-            note_g_sharp: G# note fine-tuning value (0-127).
-            note_a: A note fine-tuning value (0-127).
-            note_a_sharp: A# note fine-tuning value (0-127).
-            note_b: B note fine-tuning value (0-127).
-        """
-
-        def __init__(
-            self,
-            note_c: int = 64,
-            note_c_sharp: int = 64,
-            note_d: int = 64,
-            note_d_sharp: int = 64,
-            note_e: int = 64,
-            note_f: int = 64,
-            note_f_sharp: int = 64,
-            note_g: int = 64,
-            note_g_sharp: int = 64,
-            note_a: int = 64,
-            note_a_sharp: int = 64,
-            note_b: int = 64,
-        ):
-            self.note_c = note_c
-            self.note_c_sharp = note_c_sharp
-            self.note_d = note_d
-            self.note_d_sharp = note_d_sharp
-            self.note_e = note_e
-            self.note_f = note_f
-            self.note_f_sharp = note_f_sharp
-            self.note_g = note_g
-            self.note_g_sharp = note_g_sharp
-            self.note_a = note_a
-            self.note_a_sharp = note_a_sharp
-            self.note_b = note_b
-
-    class ModulationWheelParameter:
-        """
-        Modulation wheel parameters.
-        Args:
-            high_pitch_volume: High pitch volume intensity (0-127).
-            time_varying_timbre_cutoff: Time-varying timbre cutoff frequency (0-127).
-            amplitude: Amplitude modulation depth (0-127).
-            low_frequency_oscillator_rate: Low-frequency oscillator rate (0-127).
-            pitch_depth: Pitch modulation depth (0-127).
-            time_varying_filter_depth: Time-varying filter depth (0-127).
-            time_varying_amplifier_depth: Time-varying amplifier depth (0-127).
-        """
-
-        def __init__(
-            self,
-            high_pitch_volume: int = 64,
-            time_varying_timbre_cutoff: int = 64,
-            amplitude: int = 64,
-            low_frequency_oscillator_rate: int = 64,
-            pitch_depth: int = 64,
-            time_varying_filter_depth: int = 64,
-            time_varying_amplifier_depth: int = 64,
-        ):
-            self.high_pitch_volume = high_pitch_volume
-            self.time_varying_timbre_cutoff = time_varying_timbre_cutoff
-            self.amplitude = amplitude
-            self.low_frequency_oscillator_rate = low_frequency_oscillator_rate
-            self.pitch_depth = pitch_depth
-            self.time_varying_filter_depth = time_varying_filter_depth
-            self.time_varying_amplifier_depth = time_varying_amplifier_depth
-
     def __init__(self, tx_pin=17):
         """
         Initializes the SAM2695 MIDI interface.
@@ -428,25 +315,41 @@ class Sam2695Midi:
         self._write(command)
 
     def set_equalizer(
-        self, channel: int, equalizer_parameter: EqualizerParameter
+        self,
+        channel: int,
+        low_frequency_gain: int,
+        medium_low_frequency_gain: int,
+        medium_high_frequency_gain: int,
+        high_frequency_gain: int,
+        low_frequency: int,
+        medium_low_frequency: int,
+        medium_high_frequency: int,
+        high_frequency: int,
     ) -> None:
         """
         Set up a four segment equalizer.
 
         Args:
             channel: Designated channel (0-15).
-            equalizer_parameter: Equalizer parameters structure.
+            low_frequency_gain: Low frequency gain value (0-127).
+            medium_low_frequency_gain: Medium-low frequency gain value (0-127).
+            medium_high_frequency_gain: Medium-high frequency gain value (0-127).
+            high_frequency_gain: High frequency gain value (0-127).
+            low_frequency: Low frequency center value (0-127).
+            medium_low_frequency: Medium-low frequency center value (0-127).
+            medium_high_frequency: Medium-high frequency center value (0-127).
+            high_frequency: High frequency center value (0-127).
         """
 
         params = [
-            (0x00, equalizer_parameter.low_frequency_gain),
-            (0x01, equalizer_parameter.medium_low_frequency_gain),
-            (0x02, equalizer_parameter.medium_high_frequency_gain),
-            (0x03, equalizer_parameter.high_frequency_gain),
-            (0x08, equalizer_parameter.low_frequency),
-            (0x09, equalizer_parameter.medium_low_frequency),
-            (0x0A, equalizer_parameter.medium_high_frequency),
-            (0x0B, equalizer_parameter.high_frequency),
+            (0x00, low_frequency_gain),
+            (0x01, medium_low_frequency_gain),
+            (0x02, medium_high_frequency_gain),
+            (0x03, high_frequency_gain),
+            (0x08, low_frequency),
+            (0x09, medium_low_frequency),
+            (0x0A, medium_high_frequency),
+            (0x0B, high_frequency),
         ]
 
         for param, value in params:
@@ -533,7 +436,20 @@ class Sam2695Midi:
         self._null_nrpn_or_rpn(channel, 0x63, 0x62)
 
     def set_scale_tuning(
-        self, channel: int, scale_tuning_parameter: ScaleTuningParameter
+        self,
+        channel: int,
+        note_c: int,
+        note_c_sharp: int,
+        note_d: int,
+        note_d_sharp: int,
+        note_e: int,
+        note_f: int,
+        note_f_sharp: int,
+        note_g: int,
+        note_g_sharp: int,
+        note_a: int,
+        note_a_sharp: int,
+        note_b: int,
     ) -> None:
         """
         Set the 12 scale tuning parameters for the specified MIDI channel (independent pitch offset for each semitone).
@@ -541,6 +457,18 @@ class Sam2695Midi:
         Args:
             channel: Designated channel (0-15).
             scale_tuning_parameter: Set the 12 scale tuning parameters(C, C#, D, D#, E, F, F#, G, G#, A, A#, B) for the specified channel (independent pitch offset for each semitone).
+            note_c: C note fine-tuning value (0-127).
+            note_c_sharp: C# note fine-tuning value (0-127).
+            note_d: D note fine-tuning value (0-127).
+            note_d_sharp: D# note fine-tuning value (0-127).
+            note_e: E note fine-tuning value (0-127).
+            note_f: F note fine-tuning value (0-127).
+            note_f_sharp: F# note fine-tuning value (0-127).
+            note_g: G note fine-tuning value (0-127).
+            note_g_sharp: G# note fine-tuning value (0-127).
+            note_a: A note fine-tuning value (0-127).
+            note_a_sharp: A# note fine-tuning value (0-127).
+            note_b: B note fine-tuning value (0-127).
         """
 
         command = [
@@ -552,31 +480,45 @@ class Sam2695Midi:
             0x40,
             0x10 | (channel & 0x0F),
             0x40,
-            scale_tuning_parameter.note_c & 0x7F,
-            scale_tuning_parameter.note_c_sharp & 0x7F,
-            scale_tuning_parameter.note_d & 0x7F,
-            scale_tuning_parameter.note_d_sharp & 0x7F,
-            scale_tuning_parameter.note_e & 0x7F,
-            scale_tuning_parameter.note_f & 0x7F,
-            scale_tuning_parameter.note_f_sharp & 0x7F,
-            scale_tuning_parameter.note_g & 0x7F,
-            scale_tuning_parameter.note_g_sharp & 0x7F,
-            scale_tuning_parameter.note_a & 0x7F,
-            scale_tuning_parameter.note_a_sharp & 0x7F,
-            scale_tuning_parameter.note_b & 0x7F,
+            note_c & 0x7F,
+            note_c_sharp & 0x7F,
+            note_d & 0x7F,
+            note_d_sharp & 0x7F,
+            note_e & 0x7F,
+            note_f & 0x7F,
+            note_f_sharp & 0x7F,
+            note_g & 0x7F,
+            note_g_sharp & 0x7F,
+            note_a & 0x7F,
+            note_a_sharp & 0x7F,
+            note_b & 0x7F,
             0xF7,
         ]
         self._write(command)
 
     def set_modulation_wheel(
-        self, channel: int, modulation_wheel_parameter: ModulationWheelParameter
+        self,
+        channel: int,
+        high_pitch_volume: int,
+        time_varying_timbre_cutoff: int,
+        amplitude: int,
+        low_frequency_oscillator_rate: int,
+        pitch_depth: int,
+        time_varying_filter_depth: int,
+        time_varying_amplifier_depth: int,
     ) -> None:
         """
         Set modulation wheel parameters and configure multiple control effects for modulation wheel sound.
 
         Args:
             channel: Designated channel (0-15).
-            modulation_wheel_parameter: Modulation wheel parameters structure.
+            high_pitch_volume: High pitch volume intensity (0-127).
+            time_varying_timbre_cutoff: Time-varying timbre cutoff frequency (0-127).
+            amplitude: Amplitude modulation depth (0-127).
+            low_frequency_oscillator_rate: Low-frequency oscillator rate (0-127).
+            pitch_depth: Pitch modulation depth (0-127).
+            time_varying_filter_depth: Time-varying filter depth (0-127).
+            time_varying_amplifier_depth: Time-varying amplifier depth (0-127).
         """
 
         command = [
@@ -588,34 +530,34 @@ class Sam2695Midi:
             0x40,
             0x20 | (channel & 0x0F),
             0x00,
-            modulation_wheel_parameter.high_pitch_volume & 0x7F,
+            high_pitch_volume & 0x7F,
             0x00,
             0xF7,
         ]
         self._write(command)
 
         command[8] = 0x01
-        command[9] = modulation_wheel_parameter.time_varying_timbre_cutoff & 0x7F
+        command[9] = time_varying_timbre_cutoff & 0x7F
         self._write(command)
 
         command[8] = 0x02
-        command[9] = modulation_wheel_parameter.amplitude & 0x7F
+        command[9] = amplitude & 0x7F
         self._write(command)
 
         command[8] = 0x03
-        command[9] = modulation_wheel_parameter.low_frequency_oscillator_rate & 0x7F
+        command[9] = low_frequency_oscillator_rate & 0x7F
         self._write(command)
 
         command[8] = 0x04
-        command[9] = modulation_wheel_parameter.pitch_depth & 0x7F
+        command[9] = pitch_depth & 0x7F
         self._write(command)
 
         command[8] = 0x05
-        command[9] = modulation_wheel_parameter.time_varying_filter_depth & 0x7F
+        command[9] = time_varying_filter_depth & 0x7F
         self._write(command)
 
         command[8] = 0x06
-        command[9] = modulation_wheel_parameter.time_varying_amplifier_depth & 0x7F
+        command[9] = time_varying_amplifier_depth & 0x7F
         self._write(command)
 
     def all_drums(self) -> None:

@@ -1,5 +1,6 @@
 import time
 import urandom
+from micropython import const
 from sam2695_midi import Sam2695Midi
 from sam2695_midi_timbre import SAM2695_MIDI_TIMBRE_BANK_0
 from sam2695_midi_chorus_reverberation import SAM2695_MIDI_REVERBERATION_PLATE
@@ -12,21 +13,21 @@ from sam2695_midi_percussion_note import (
     SAM2695_MIDI_PERCUSSION_TIMBRE_1_NOTE_G_SHARP_2_PEDAL_HI_HAT,
 )
 
-SAM2695_MIDI_PIN: int = 17
+SAM2695_MIDI_PIN: int = const(17)
 
-CHANNEL: int = 9
-CHANNEL_VOLUME: int = 100
+CHANNEL: int = const(9)
+CHANNEL_VOLUME: int = const(100)
 
-REVERBERATION_VOLUME: int = 127
-REVERBERATION_DELAY_FEEDBACK: int = 100
+REVERBERATION_VOLUME: int = const(127)
+REVERBERATION_DELAY_FEEDBACK: int = const(100)
 
-TEMPO_RANDOM_RANGE: int = 5
-TEMPO_RANDOM_OFFSET: int = 2
+TEMPO_RANDOM_RANGE: int = const(5)
+TEMPO_RANDOM_OFFSET: int = const(2)
 
-MIN_TEMPO: int = 40
-MAX_TEMPO: int = 250
+MIN_TEMPO: int = const(40)
+MAX_TEMPO: int = const(250)
 
-TICK_SIZE: int = 15
+TICK_SIZE: int = const(15)
 
 BASS_DRUM_TICK = [127, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 90, 0]
 SNARE_DRUM_TICK = [0, 0, 0, 0, 127, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]

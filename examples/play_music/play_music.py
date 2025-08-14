@@ -1,4 +1,5 @@
 import time
+from micropython import const
 from sam2695_midi import Sam2695Midi
 from sam2695_midi_chorus_reverberation import SAM2695_MIDI_REVERBERATION_ROOM_2
 from sam2695_midi_note import (
@@ -16,17 +17,17 @@ from sam2695_midi_timbre import (
     SAM2695_MIDI_TIMBRE_BANK_0_ACOUSTIC_GUITAR_STEEL_STRING,
 )
 
-SAM2695_MIDI_PIN: int = 17
+SAM2695_MIDI_PIN: int = const(17)
 
-CHANNEL: int = 0
-CHANNEL_VOLUME: int = 110
+CHANNEL: int = const(0)
+CHANNEL_VOLUME: int = const(110)
 
-REVERBERATION_VOLUME: int = 80
-REVERBERATION_DELAY_FEEDBACK: int = 0
+REVERBERATION_VOLUME: int = const(80)
+REVERBERATION_DELAY_FEEDBACK: int = const(0)
 
-QUARTER_NOTE_DURATION: int = 300
+QUARTER_NOTE_DURATION: int = const(300)
 EIGHTH_NOTE_DURATION: int = 150
-DOTTED_QUARTER_NOTE_DURATION: int = 450
+DOTTED_QUARTER_NOTE_DURATION: int = const(450)
 
 sam2695_midi = Sam2695Midi(tx_pin=SAM2695_MIDI_PIN)
 
