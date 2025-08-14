@@ -1,5 +1,6 @@
 import time
 from micropython import const
+from machine import UART
 from sam2695_midi import Sam2695Midi
 from sam2695_midi_chorus_reverberation import SAM2695_MIDI_REVERBERATION_ROOM_2
 from sam2695_midi_note import (
@@ -29,7 +30,8 @@ QUARTER_NOTE_DURATION: int = const(300)
 EIGHTH_NOTE_DURATION: int = 150
 DOTTED_QUARTER_NOTE_DURATION: int = const(450)
 
-sam2695_midi = Sam2695Midi(tx_pin=SAM2695_MIDI_PIN)
+uart = UART(2, baudrate=31250, tx=SAM2695_MIDI_PIN)
+sam2695_midi = Sam2695Midi(uart)
 
 
 def play_note(midi_note: int, duration: int, note_velocity: int = 90):

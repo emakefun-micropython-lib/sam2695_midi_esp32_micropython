@@ -1,5 +1,6 @@
 import time
 import urandom
+from machine import UART
 from micropython import const
 from sam2695_midi import Sam2695Midi
 from sam2695_midi_timbre import SAM2695_MIDI_TIMBRE_BANK_0
@@ -29,6 +30,7 @@ MAX_TEMPO: int = const(250)
 
 TICK_SIZE: int = const(15)
 
+
 BASS_DRUM_TICK = [127, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 90, 0]
 SNARE_DRUM_TICK = [0, 0, 0, 0, 127, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 HI_HAT_OPEN_TICK = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 127, 0]
@@ -42,7 +44,8 @@ assert len(HI_HAT_CLOSE_TICK) == TICK_SIZE, "HI_HAT_CLOSE_TICK size must be 15"
 assert len(HI_HAT_PEDAL_TICK) == TICK_SIZE, "HI_HAT_PEDAL_TICK size must be 15"
 
 tempo: int = 120
-sam2695_midi = Sam2695Midi(tx_pin=SAM2695_MIDI_PIN)
+uart = UART(2, baudrate=31250, tx=SAM2695_MIDI_PIN)
+sam2695_midi = Sam2695Midi(uart)
 
 
 def play_drum_note(midi_note: int, note_velocity: int):

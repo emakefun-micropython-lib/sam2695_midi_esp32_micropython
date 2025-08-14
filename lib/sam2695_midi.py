@@ -1,18 +1,18 @@
-from machine import UART
 import time
 from sam2695_midi_timbre import SAM2695_MIDI_TIMBRE_BANK_0, SAM2695_MIDI_TIMBRE_BANK_127
 
 
 class Sam2695Midi:
-    def __init__(self, tx_pin=17):
+
+    def __init__(self, stream):
         """
         Initializes the SAM2695 MIDI interface.
 
         Args:
-            tx_pin: TX pin for UART communication.
+            stream: MicroPython流对象。
         """
 
-        self._uart = UART(2, baudrate=31250, tx=tx_pin)
+        self._stream = stream
 
         time.sleep_ms(50)
 
@@ -24,7 +24,7 @@ class Sam2695Midi:
             command: MIDI command bytes to send.
         """
 
-        self._uart.write(bytearray(command))
+        self._stream.write(bytearray(command))
 
     def _send_nrpn_or_rpn_parameter(
         self,
