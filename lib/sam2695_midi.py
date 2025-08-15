@@ -9,7 +9,7 @@ class Sam2695Midi:
         Initializes the SAM2695 MIDI interface.
 
         Args:
-            stream: MicroPython流对象。
+            stream: Data stream for MIDI communication.
         """
 
         self._stream = stream
